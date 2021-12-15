@@ -1,0 +1,33 @@
+@import "../../styles/base/_variables";
+
+.tableRow {
+  border-top: 1px solid $white;
+  border-bottom: 1px solid $white;
+  padding: $S;
+  cursor: pointer;
+  background-color: transparent;
+  transition: all 0.3s ease-in-out;
+
+  &:first-child {
+    border-top-color: transparent;
+  }
+
+  &:last-child {
+    border-bottom-color: transparent;
+  }
+
+  &:hover {
+    background-color: $link;
+  }
+}
+
+.smalls {
+  font-size: $XS;
+  margin-left: 5px;
+}
+
+.button {
+  color: $white;
+  background-color: $theme-lighter;
+  cursor: pointer;
+}

@@ -1,26 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { PropTypes } from 'prop-types'
 
-function handleOptionsChange(setValues, onChange) {
+function handleOptionsChange(setValues) {
   return (event) => {
     event.persist()
 
     const { checked, value } = event.target
 
     if (checked === true) {
-      setValues((prevValues) => {
-        const newValues = [ ...prevValues, value ]
-        onChange(newValues)
-
-        return newValues
-      })
+      setValues((prevValues) => [ ...prevValues, value ])
     } else if (checked === false) { 
-      setValues((prevValues) => {
-        const newValues = prevValues.filter(val => val === value ? false : true)
-        onChange(newValues)
-
-        return newValues
-      })
+      setValues((prevValues) => prevValues.filter(val => val === value ? false : true))
     }
   }
 }
@@ -31,7 +21,11 @@ export default function Options({
   onChange,
   classes = ''
 }) {
-  const [values, setValues] = useState([])
+  const [value, setValues] = useState([])
+
+  useEffect(() => {
+    onChange(value)
+  }, [value])
 
   return (
     <div className={`select-box grid col-12 ${classes}`}>
@@ -47,7 +41,7 @@ export default function Options({
                     type='checkbox'
                     value={value}
                     className='margin-right-s'
-                    onChange={handleOptionsChange(setValues, onChange)}
+                    onChange={handleOptionsChange(setValues)}
                   />
                   <label htmlFor={value}>
                     {name}

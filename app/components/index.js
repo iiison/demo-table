@@ -6,3 +6,4 @@ export Timer from './Timer/Timer'
 
 export Select from './Select/Select'
 export Options from './Options/Options'
+export TextInput from './TextInput/TextInput'

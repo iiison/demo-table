@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { PropTypes } from 'prop-types'
 
-import { Select, Options } from '$COMPONENTS'
+import { Select, Options, TextInput } from '$COMPONENTS'
 
 function getSchemas() {
   return [
@@ -94,6 +94,10 @@ function handleOptionsChange(formData) {
   return (value) => updateFormDataRef('columns', value, formData)
 }
 
+function handleInputChange(formData) {
+  return (value) => updateFormDataRef('tableAddress', value, formData)
+}
+
 function SchemaOptions({ schema, formData }) {
   const options = schema.columns.reduce((prev, { display_name, description, type, name }) => {
     return [
@@ -119,6 +123,11 @@ function SchemaOptions({ schema, formData }) {
     <div className='margin-tb-xl col-12'>
       <div className='grid col-12'>
         <Options {...optionsProps} />
+        <TextInput
+          onChange={handleInputChange(formData)}
+          label='Table Address'
+          placeholder='Enter Table Address'
+        />
       </div>
     </div>
   )

@@ -1,19 +1,26 @@
 import React, { useState } from 'react'
 import { PropTypes } from 'prop-types'
 
-function handleOptionsChange(setValues) {
+function handleOptionsChange(setValues, onChange) {
   return (event) => {
     event.persist()
 
     const { checked, value } = event.target
 
     if (checked === true) {
-      setValues((prevValues) => ([
-        ...prevValues,
-        value
-      ]))
+      setValues((prevValues) => {
+        const newValues = [ ...prevValues, value ]
+        onChange(newValues)
+
+        return newValues
+      })
     } else if (checked === false) { 
-      setValues((prevValues) => prevValues.filter(val => val === value ? false : true))
+      setValues((prevValues) => {
+        const newValues = prevValues.filter(val => val === value ? false : true)
+        onChange(newValues)
+
+        return newValues
+      })
     }
   }
 }
@@ -21,6 +28,7 @@ function handleOptionsChange(setValues) {
 export default function Options({
   label,
   options,
+  onChange,
   classes = ''
 }) {
   const [values, setValues] = useState([])
@@ -39,7 +47,7 @@ export default function Options({
                     type='checkbox'
                     value={value}
                     className='margin-right-s'
-                    onChange={handleOptionsChange(setValues)}
+                    onChange={handleOptionsChange(setValues, onChange)}
                   />
                   <label htmlFor={value}>
                     {name}

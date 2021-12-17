@@ -37,12 +37,16 @@ function fetchSchemaDetails() {
   }
 }
 
+function updateFormDataRef(key, value, formData) {
+  formData.current = {
+    ...formData.current,
+    [key] : value
+  }
+}
+
 function handleSchemaChange(formData, setSchema) {
   return (value) => {
-    formData.current = {
-      ...formData.current,
-      schema : value
-    }
+    updateFormDataRef('schema', value, formData)
 
     const schemaDetails = fetchSchemaDetails(value)
 
@@ -86,7 +90,11 @@ SchemasSelection.propTypes = {
   }))
 }
 
-function SchemaOptions({ schema }) {
+function handleOptionsChange(formData) {
+  return (value) => updateFormDataRef('columns', value, formData)
+}
+
+function SchemaOptions({ schema, formData }) {
   const options = schema.columns.reduce((prev, { display_name, description, type, name }) => {
     return [
       ...prev,
@@ -103,7 +111,8 @@ function SchemaOptions({ schema }) {
   }, [])
   const optionsProps = {
     options,
-    label : 'Choose Columns'
+    onChange : handleOptionsChange(formData),
+    label    : 'Choose Columns'
   }
 
   return (
@@ -116,7 +125,8 @@ function SchemaOptions({ schema }) {
 }
 
 SchemaOptions.propTypes = {
-  schema: PropTypes.shape({
+  formData : PropTypes.object.isRequired,
+  schema   :  PropTypes.shape({
     name        : PropTypes.string,
     description : PropTypes.string,
     columns     : PropTypes.arrayOf(PropTypes.shape({
@@ -160,7 +170,7 @@ function CreateNewTable() {
                 : <h3>No Schemas Found</h3>
             }
           </div>
-          {schemaDetails !== undefined && <SchemaOptions schema={schemaDetails} />}
+          {schemaDetails !== undefined && <SchemaOptions schema={schemaDetails} formData={formData} />}
         </div>
       </div>
     </div>

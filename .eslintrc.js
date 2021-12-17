@@ -40,7 +40,9 @@ module.exports = {
     }
   },
   rules: {
-    'no-unused-vars' : 1
+    'no-unused-vars' : 1,
+    'no-console' : 1,
+    'no-debugger': 1
   }
 };
 

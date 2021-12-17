@@ -12,6 +12,7 @@ const EnrollmentStep1 = lazy(() => import('$SCREENS/PinEnrollment/Step1'))
 const EnrollmentStep2 = lazy(() => import('$SCREENS/PinEnrollment/Step2'))
 const PinVerification = lazy(() => import('$SCREENS/PinVerification/PinVerification'))
 const Home = lazy(() => import('$SCREENS/Home/Home'))
+const CreateNewTable = lazy(() => import('$SCREENS/NewTable/NewTable'))
 
 const routes = () => {
   return (
@@ -21,7 +22,7 @@ const routes = () => {
         <Suspense fallback={<Loader />}>
           <Switch>
             <Route path='/' exact component={Home} />
-            <Route path='/table/new' exact component={EnrollmentStep1} />
+            <Route path='/table/new' exact component={CreateNewTable} />
             <Route path='/table/:id' component={Home} />
 
             <Route path='/enrollment/step-1' component={EnrollmentStep1} />

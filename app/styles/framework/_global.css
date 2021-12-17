@@ -60,6 +60,10 @@
     color: $main-dark;
   }
 
+  .pointer {
+    cursor: pointer;
+  }
+
   .hidden{
     display: none;
   }

@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { PropTypes } from 'prop-types'
+import { useHistory } from 'react-router-dom'
 
 import { Select, Options, TextInput } from '$COMPONENTS'
+import styles from './styles.css'
 
 function getSchemas() {
   return [
@@ -98,6 +100,13 @@ function handleInputChange(formData) {
   return (value) => updateFormDataRef('tableAddress', value, formData)
 }
 
+function handleSubmit() {
+  const history = useHistory()
+  // dummy submit
+
+  return () => history.push('/table/abc')
+}
+
 function SchemaOptions({ schema, formData }) {
   const options = schema.columns.reduce((prev, { display_name, description, type, name }) => {
     return [
@@ -128,6 +137,10 @@ function SchemaOptions({ schema, formData }) {
           label='Table Address'
           placeholder='Enter Table Address'
         />
+        <button
+          onClick={handleSubmit(formData)}
+          className={`${styles.btn} col-12 margin-tb-xl padded-l pointer`}
+        >Make New Table</button>
       </div>
     </div>
   )
@@ -153,7 +166,6 @@ function CreateNewTable() {
   const formData = useRef({})
   const [schemas, setSchemas] = useState([])
   const [schemaDetails, setSchema] = useState()
-  const [tableAddress, setTableAddress] = useState('')
 
   useEffect(() => {
     const allSchemas = getSchemas()

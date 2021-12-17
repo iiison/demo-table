@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { PropTypes } from 'prop-types'
 
-import { Select } from '$COMPONENTS'
+import { Select, Options } from '$COMPONENTS'
 
 function getSchemas() {
   return [
@@ -87,16 +87,29 @@ SchemasSelection.propTypes = {
 }
 
 function SchemaOptions({ schema }) {
+  const options = schema.columns.reduce((prev, { display_name, description, type, name }) => {
+    return [
+      ...prev,
+      {
+        name : (
+          <>
+            <h3 className='col-12'>{display_name} ({type})</h3>
+            <p className='col-12'>{description}</p>
+          </>
+        ),
+        value : name
+      }
+    ]
+  }, [])
+  const optionsProps = {
+    options,
+    label : 'Choose Columns'
+  }
+
   return (
     <div className='margin-tb-xl col-12'>
-      <h3>Choose Columns</h3>
       <div className='grid col-12'>
-        {schema.columns.map(({display_name, description, name}) => (
-          <div className='col-12' key={name}>
-            <h4>{display_name}</h4>
-              <p>{description}</p>
-          </div>
-        ))}
+        <Options {...optionsProps} />
       </div>
     </div>
   )

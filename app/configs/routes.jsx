@@ -13,6 +13,7 @@ const EnrollmentStep2 = lazy(() => import('$SCREENS/PinEnrollment/Step2'))
 const PinVerification = lazy(() => import('$SCREENS/PinVerification/PinVerification'))
 const Home = lazy(() => import('$SCREENS/Home/Home'))
 const CreateNewTable = lazy(() => import('$SCREENS/NewTable/NewTable'))
+const TableEditor = lazy(() => import('$SCREENS/TableEditor/TableEditor'))
 
 const routes = () => {
   return (
@@ -23,7 +24,7 @@ const routes = () => {
           <Switch>
             <Route path='/' exact component={Home} />
             <Route path='/table/new' exact component={CreateNewTable} />
-            <Route path='/table/:id' component={Home} />
+            <Route path='/table/:id' component={TableEditor} />
 
             <Route path='/enrollment/step-1' component={EnrollmentStep1} />
             <Route path='/enrollment/setPin' component={EnrollmentStep2} />

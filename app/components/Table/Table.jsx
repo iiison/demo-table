@@ -1,13 +1,15 @@
 import React from 'react'
 import { PropTypes } from 'prop-types'
 
+import styles from './styles.css'
+
 export default function Table({ headers, rows, map, formatter }) {
   return (
-    <table className='col-12 t-center'>
+    <table className={`${styles.striped} col-12 t-center`}>
       <thead>
         <tr>
           {headers.map(({ display_name, name }) => (
-            <th key={name}>{display_name}</th>
+            <th key={name} className='padded-s t-capitalize'>{display_name}</th>
           ))}
         </tr>
       </thead>

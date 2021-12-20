@@ -3,7 +3,13 @@ import { PropTypes } from 'prop-types'
 
 import styles from './styles.css'
 
-export default function Table({ headers, rows, map, formatter }) {
+export default function Table({
+  map,
+  rows,
+  headers,
+  formatter,
+  onRowClick
+}) {
   return (
     <table className={`${styles.striped} col-12 t-center`}>
       <thead>
@@ -15,8 +21,8 @@ export default function Table({ headers, rows, map, formatter }) {
       </thead>
       <tbody>
         {
-          rows.map((row) => (
-            <tr key={row}>
+          rows.map((row, rowId) => (
+            <tr key={row} onClick={onRowClick({ rowId })}>
               {
                 map[row].map((value, index) => (
                   <td key={value}>
@@ -35,10 +41,11 @@ export default function Table({ headers, rows, map, formatter }) {
 }
 
 Table.propTypes = {
-  formatter : PropTypes.func,
-  map       : PropTypes.object,
-  rows      : PropTypes.arrayOf(PropTypes.number),
-  headers   : PropTypes.arrayOf(PropTypes.shape({
+  formatter  : PropTypes.func,
+  onRowClick : PropTypes.func,
+  map        : PropTypes.object,
+  rows       : PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
+  headers    : PropTypes.arrayOf(PropTypes.shape({
     display_name : PropTypes.string,
     format_hint  : PropTypes.string,
     name         : PropTypes.string,

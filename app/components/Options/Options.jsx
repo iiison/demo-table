@@ -19,9 +19,10 @@ export default function Options({
   label,
   options,
   onChange,
+  value : propValue,
   classes = ''
 }) {
-  const [value, setValues] = useState([])
+  const [value, setValues] = useState(propValue || [])
 
   useEffect(() => {
     onChange(value)

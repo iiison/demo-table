@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
+import { PropTypes } from 'prop-types'
 
 import { Table } from '$COMPONENTS'
 import tableDataFormatter from './tableDataFormatter'
+import EditorForm from './EditorForm'
 
 function fetchTable(id) {
   return {
@@ -23,7 +25,7 @@ function fetchTable(id) {
         {
           name : 'col-3',
           display_name : 'col-3',
-          type : 'boolean',
+          type : 'date',
           format_hint : 'date'
         }
       ],
@@ -37,6 +39,30 @@ function fetchTable(id) {
   }
 }
 
+function Modal({ row, headers, rowId }) {
+  return (
+    <div>Modal</div>
+  )
+} 
+
+Modal.propTypes = {
+  rowId   : PropTypes.number,
+  row     : PropTypes.arrayOf(PropTypes.number),
+  headers : PropTypes.arrayOf(PropTypes.shape({
+    display_name : PropTypes.string,
+    format_hint  : PropTypes.string,
+    name         : PropTypes.string,
+    type         : PropTypes.string
+  }))
+}
+
+function handleRowClick(setShowModal, setCurrentRow) {
+  return ({ rowId }) => () => {
+    setShowModal(true)
+    setCurrentRow(rowId)
+  }
+}
+
 function makeTableDataMap(data) {
   return data.reduce((map, row, currIndex) => ({
     ...map,
@@ -45,10 +71,12 @@ function makeTableDataMap(data) {
 }
 
 export default function TableEditor() {
+  const [ showModal, setShowModal ] = useState(false)
   const [ tableDataMap, setTableDataMap ] = useState()
   const [ tableHeaders, setTableHeaders ] = useState([])
   const [ tableHash, setTableHash ] = useState([])
   const [ activeRows, setActiveRows ] = useState([])
+  const [ currentRow, setCurrentRow ] = useState()
 
   useEffect(() => {
     const {
@@ -73,7 +101,9 @@ export default function TableEditor() {
           map={tableDataMap}
           headers={tableHeaders}
           formatter={tableDataFormatter}
+          onRowClick={handleRowClick(setShowModal, setCurrentRow)}
         />
+        {showModal && <EditorForm headers={tableHeaders} row={tableDataMap[currentRow]} />}
       </div> 
     )
   )

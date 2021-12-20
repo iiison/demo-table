@@ -12,13 +12,14 @@ function handleInputChange(setValue) {
 }
 
 export default function TextInput({
-  classes = '',
-  type = 'text',
-  placeholder = '',
+  label,
   onChange,
-  label
+  type = 'text',
+  classes = '',
+  placeholder = '',
+  value : propValue = ''
 }) {
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState(propValue)
   const inputProps = {
     type,
     value,
@@ -40,9 +41,10 @@ export default function TextInput({
 }
 
 TextInput.propTypes = {
+  value       : PropTypes.string,
   label       : PropTypes.string.isRequired,
-  onChange    : PropTypes.func.isRequired,
   classes     : PropTypes.string,
+  onChange    : PropTypes.func.isRequired,
   placeholder : PropTypes.string,
   type        : PropTypes.oneOf(['email', 'text', 'number', 'tel', 'password', 'textarea'])
 }

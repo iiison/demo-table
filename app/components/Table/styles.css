@@ -23,5 +23,9 @@
     td {
       padding: $S;
     }
+
+    &.highlighted{
+      background-color: #c15a11;
+    }
   }
 }

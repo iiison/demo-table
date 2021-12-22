@@ -18,10 +18,10 @@ export default function tableDataFormatter(name, value) {
       return <span>{value === true ? 'yes' : 'no'}</span>
 
     case 'date':
-      return <span>{moment(value).format('DD/MM/YYYY')}</span>
+      return <span>{moment.unix(value).format('DD/MM/YYYY')}</span>
 
     case 'time':
-      return <span>{moment(value).format('HH:mm:ss')}</span>
+      return <span>{moment.unix(value).format('HH:mm:ss')}</span>
 
     default:
       return <span>{value}</span>

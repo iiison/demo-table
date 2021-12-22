@@ -33,7 +33,7 @@ function fetchTable(id) {
         ['123', '32.32', '1234123'],
         ['123', '32', '1234123'],
         ['123', '32.32', '1234123'],
-        ['123', '32.32', '1234123'],
+        ['123', '32.32', 1639978847],
       ]
     }
   }
@@ -70,6 +70,23 @@ function makeTableDataMap(data) {
   }), {})
 }
 
+function handleRowSave({
+  currentRow,
+  setShowModal,
+  tableDataMap,
+  setEditedRows,
+  setTableDataMap
+}) {
+  return (rowData) => {
+    const dataClone = {...tableDataMap}
+    setShowModal(false)
+
+    dataClone[currentRow] = [...Object.values(rowData)]
+    setTableDataMap(dataClone)
+    setEditedRows((prev) => [...prev, currentRow])
+  }
+}
+
 export default function TableEditor() {
   const [ showModal, setShowModal ] = useState(false)
   const [ tableDataMap, setTableDataMap ] = useState()
@@ -77,6 +94,7 @@ export default function TableEditor() {
   const [ tableHash, setTableHash ] = useState([])
   const [ activeRows, setActiveRows ] = useState([])
   const [ currentRow, setCurrentRow ] = useState()
+  const [ editedRows, setEditedRows ] = useState([])
 
   useEffect(() => {
     const {
@@ -100,10 +118,25 @@ export default function TableEditor() {
           rows={activeRows}
           map={tableDataMap}
           headers={tableHeaders}
+          highlightRows={editedRows}
           formatter={tableDataFormatter}
           onRowClick={handleRowClick(setShowModal, setCurrentRow)}
         />
-        {showModal && <EditorForm headers={tableHeaders} row={tableDataMap[currentRow]} />}
+        {showModal && (
+          <EditorForm
+            headers={tableHeaders}
+            row={tableDataMap[currentRow]}
+            onSave={handleRowSave({
+              currentRow,
+              tableHeaders,
+              setShowModal,
+              tableDataMap,
+              setEditedRows,
+              setTableDataMap
+            })} 
+          />
+          )
+        }
       </div> 
     )
   )

@@ -16,3 +16,8 @@
 .modalCont{
   background-color: $white;
 }
+
+.btn {
+  background-color: $theme-lighter;
+  color: $white;
+}
